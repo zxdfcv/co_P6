@@ -85,19 +85,18 @@
    <ItemView engineview="BehavioralSim" guiview="Source" compilemode="AutoCompile" >
       <ClosedNodes>
          <ClosedNodesVersion>2</ClosedNodesVersion>
-         <ClosedNode>/mips_txt C:|Users|10791|P6_version1|P6_code|test.v/uut - mips/datapath - datapath/ALU - alu</ClosedNode>
          <ClosedNode>/mips_txt C:|Users|10791|P6_version1|P6_code|test.v/uut - mips/datapath - datapath/Comparator - Comparator</ClosedNode>
          <ClosedNode>/mips_txt C:|Users|10791|P6_version1|P6_code|test.v/uut - mips/datapath - datapath/PCcalculate - PCcalculate</ClosedNode>
          <ClosedNode>PROJECT</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>muldiv (C:/Users/10791/P6_version1/P6_code/muldiv.v)</SelectedItem>
+         <SelectedItem>controllerEx - controller (C:/Users/10791/P6_version1/P6_code/controller.v)</SelectedItem>
       </SelectedItems>
-      <ScrollbarPosition orientation="vertical" >40</ScrollbarPosition>
+      <ScrollbarPosition orientation="vertical" >26</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff0000000000000001000000010000000000000000000000000000000002020000000100000001000000640000018e000000020000000000000000000000000200000064ffffffff0000008100000003000000020000018e0000000100000003000000000000000100000003</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem>muldiv (C:/Users/10791/P6_version1/P6_code/muldiv.v)</CurrentItem>
+      <CurrentItem>controllerEx - controller (C:/Users/10791/P6_version1/P6_code/controller.v)</CurrentItem>
    </ItemView>
    <ItemView engineview="BehavioralSim" sourcetype="" guiview="Process" >
       <ClosedNodes>
@@ -105,13 +104,13 @@
          <ClosedNode>Design Utilities/Compile HDL Simulation Libraries</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem></SelectedItem>
+         <SelectedItem/>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000000000000000000ca000000010000000100000000000000000000000064ffffffff000000810000000000000001000000ca0000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem></CurrentItem>
+      <CurrentItem/>
    </ItemView>
    <ItemView engineview="BehavioralSim" sourcetype="DESUT_VERILOG" guiview="Process" >
       <ClosedNodes>

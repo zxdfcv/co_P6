@@ -161,7 +161,7 @@ assign JUMPOut = (_bnezalc & cmp);
 always@(*) begin
 	case(Level)
 	`Level_EX : tnew = (_add | _sub | _ori | _lui | _andi | _and | _or | _addi | _slt | _sltu | _swc | _mfhi | _mflo ) ? 2'b01 : //新数据需要一个周期写入下一级流水线寄存器 jal, jalr tnew = 0
-				(_lw) ? 2'b10 : // tnew = 0 //mfhi mflo rd is the same as ordinary R-Type instr
+				(_lw | _lh | _lb | _lbu | _lhu) ? 2'b10 : // tnew = 0 //mfhi mflo rd is the same as ordinary R-Type instr
 				2'b00;
 
 	`Level_MEM: tnew = (_lw | _lh | _lb | _lbu | _lhu) ? 2'b01 :
