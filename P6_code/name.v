@@ -22,6 +22,7 @@
 `define _R  6'b000000
 `define ADD 6'b100000
 `define SLT 6'b101010
+`define SLTU 6'b101011
 `define SUB 6'b100010
 `define AND 6'b100100
 `define OR  6'b100101
@@ -121,6 +122,7 @@
 `define ALUCtrl_SMALL 4'b1001
 `define ALUCtrl_GREAT 4'b1010 //小心无符号数和有符号数！！！verilog默认无符号
 `define ALUCtrl_SWC 4'b1011
+`define ALUCtrl_SMALLU 4'b1100
 //1011
 
 `define DMMode_Word 4'b0000
@@ -146,12 +148,13 @@
 `define DATA_MEM 2'b10
 `define DATA_WB 2'b01
 
-`define MULDIVMode_MULT 4'b0000
-`define MULDIVMode_MULTU 4'b0001
-`define MULDIVMode_DIV 4'b0010
-`define MULDIVMode_DIVU 4'b0011
-`define MULDIVMode_MTHI 4'b0100
-`define MULDIVMode_MTLO 4'b0101
+`define MULDIVMode_NOTHING 4'b0000
+`define MULDIVMode_MULT 4'b0001
+`define MULDIVMode_MULTU 4'b0010
+`define MULDIVMode_DIV 4'b0011
+`define MULDIVMode_DIVU 4'b0100
+`define MULDIVMode_MTHI 4'b0101
+`define MULDIVMode_MTLO 4'b0110
 
 `define MULDIV_HIGH 1'b1
 `define MULDIV_LOW 1'b0

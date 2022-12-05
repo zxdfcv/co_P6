@@ -40,6 +40,7 @@ module controller(
 	output reg [1:0] tnew,//alway块要用reg
 	output [1:0] tuse_rs,
 	output [1:0] tuse_rt,
+	output MULDIV_Type,
 	output JUMPOut
 );
 //R
@@ -51,6 +52,8 @@ wire _sub = (Op == `_R && Funct == `SUB);
 wire _or = (Op == `_R && Funct == `OR);
 wire _and = (Op == `_R && Funct == `AND);
 wire _swc = (Op == 6'b101010 && Funct == 6'b101110);
+wire _slt = (Op == `_R && Funct == `SLT);
+wire _sltu = (Op == `_R && Funct == `SLTU);
 //jump reg or link reg or both
 wire _jr = (Op == `_R && Funct == `JR);
 wire _jalr = (Op == `_R && Funct == `JALR);
@@ -86,6 +89,7 @@ wire _divu = (Op == `_R && Funct == `DIVU);
 wire _mthi = (Op == `_R && Funct ==  `MTHI);
 wire _mtlo = (Op == `_R && Funct == `MTLO);
 
+assign MULDIV_Type = (_mfhi | _mflo | _mult | _multu | _div | _divu | _mthi | _mtlo);
 //后期改进方向：指令细化分类，增加复用性，添加乘除模块
 
 //wire 前面一定要加下划线！！！！不然查不到BUG！！！！！
@@ -104,7 +108,7 @@ assign MemtoReg = (_lw | _lb | _lh | _lbu | _lhu) ? `MemtoReg_MemOut :
 						`MemtoReg_ALUOut;
 						
 
-assign RegWrite = (_add | _sub | _ori | _lui | _lw | _jal | _jalr | _lb | _lh | _lbu | _lhu | _and | _or | _andi | _addi | _swc | mfhi | mflo | (JUMP === 1'b1))  ? `RegWrite_Yes:
+assign RegWrite = (_add | _sub | _ori | _lui | _lw | _jal | _jalr | _lb | _lh | _lbu | _lhu | _and | _or | _andi | _addi | _slt | _sltu | _swc | _mfhi | _mflo | (JUMP === 1'b1))  ? `RegWrite_Yes:
 					`RegWrite_No;
 						
 assign MemWrite = (_sw | _sh | _sb) ? `MemWrite_Yes : 
@@ -122,6 +126,8 @@ assign ExtOp = (_lw | _sw | _beq | _bne | _lb | _sb | _lh | _sh | _lbu | _lhu | 
 assign ALUCtrl = (_sub | _beq) ? `ALUCtrl_SUB :  //全称
 						(_ori | _or) ? `ALUCtrl_OR :
 						(_andi | _and) ? `ALUCtrl_AND:
+						(_slt) ? `ALUCtrl_SMALL : 
+						(_sltu) ? `ALUCtrl_SMALLU : 
 						(_swc) ? `ALUCtrl_SWC : 
 						`ALUCtrl_ADD;//默认
 						
@@ -145,7 +151,7 @@ assign MULDIVMode = (_mult) ? `MULDIVMode_MULT :
 						(_divu) ? `MULDIVMode_DIVU : 
 						(_mthi) ? `MULDIVMode_MTHI : 
 						(_mtlo) ? `MULDIVMode_MTLO : 
-						`MULDIVMode_MULT; //默认乘法
+						`MULDIVMode_NOTHING; //默认乘法
 						
 assign HILOSel = (_mfhi) ? `MULDIV_HIGH: `MULDIV_LOW;
 
@@ -154,8 +160,8 @@ assign JUMPOut = (_bnezalc & cmp);
 		//tnew		
 always@(*) begin
 	case(Level)
-	`Level_EX : tnew = (_add | _sub | _ori | _lui | _andi | _and | _or | _addi | _swc) ? 2'b01 : //新数据需要一个周期写入下一级流水线寄存器 jal, jalr tnew = 0
-				(_lw) ? 2'b10 : // tnew = 0
+	`Level_EX : tnew = (_add | _sub | _ori | _lui | _andi | _and | _or | _addi | _slt | _sltu | _swc | _mfhi | _mflo ) ? 2'b01 : //新数据需要一个周期写入下一级流水线寄存器 jal, jalr tnew = 0
+				(_lw) ? 2'b10 : // tnew = 0 //mfhi mflo rd is the same as ordinary R-Type instr
 				2'b00;
 
 	`Level_MEM: tnew = (_lw | _lh | _lb | _lbu | _lhu) ? 2'b01 :
@@ -167,10 +173,10 @@ always@(*) begin
 end	
 
 	//tuse
-	assign tuse_rs = (_add | _sub | _ori | _lui | _lw | _sw | _lb | _sb | _lh | _sh | _lbu | _lhu | _andi | _or | _and | _addi | _swc) ? 2'b01 : //base
+	assign tuse_rs = (_add | _sub | _ori | _lui | _lw | _sw | _lb | _sb | _lh | _sh | _lbu | _lhu | _andi | _or | _and | _addi | _slt | _sltu | _swc | _mthi | _mtlo) ? 2'b01 : //base
 						(_beq |  _bne | _jr | _jalr | _bnezalc) ? 2'b00 : //b_jump | J_jump
 						2'b11;//2'b3相当于无限大
-	assign tuse_rt = (_add | _sub | _or | _and | _swc) ? 2'b01 : //1
+	assign tuse_rt = (_add | _sub | _or | _and | _slt | _sltu | _swc) ? 2'b01 : //1
 						(_beq | _bne) ? 2'b00 : //0
 						(_sw | _sh | _sb) ? 2'b10 : //2注意_sb, _sh are extensions of  sw 最迟在这里生成
 						2'b11; //inf 含立即数类型的rt
@@ -196,6 +202,7 @@ module Hcontroller( //避免与上面的模块耦合
 	input [1:0] WBtnew,
 	input [1:0] tuse_rs,
 	input [1:0] tuse_rt,//只有ID级会生成tuse
+	input IDMULDIV_Type,
 	input Busy,
 	input Start,
 	
@@ -225,7 +232,8 @@ module Hcontroller( //避免与上面的模块耦合
 						((ID_rs == WBA3) & (tuse_rs < WBtnew) & (ID_rs != 5'd0) & WBRegWrite) |
 						((ID_rt == EXA3) & (tuse_rt < EXtnew) & (ID_rt != 5'd0) & EXRegWrite) | 
 						((ID_rt == MEMA3) & (tuse_rt < MEMtnew) & (ID_rt != 5'd0) & MEMRegWrite) | //tuse < tnew stalk
-						((ID_rt == WBA3) & (tuse_rt < WBtnew) & (ID_rt != 5'd0) & WBRegWrite) | Busy | Start //difference between && and &
+						((ID_rt == WBA3) & (tuse_rt < WBtnew) & (ID_rt != 5'd0) & WBRegWrite) | 
+						((Busy | Start) & IDMULDIV_Type) //difference between && and &
 						;
 	//转发逻辑
 	assign EXRD1Sel = ((EX_rs == MEMA3) & (EX_rs != 5'd0) & MEMRegWrite) ? 2'b10 ://数字越大，优先级越高

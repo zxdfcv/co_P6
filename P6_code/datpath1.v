@@ -21,29 +21,6 @@ module datapath(
     output [31:0] w_grf_wdata,
     output [31:0] w_inst_addr
 );
-	//I preprocess 
-	assign IFIR = i_inst_rdata;//接线 //IM
-	//assign MEMRD = m_data_rdata;
-	//O
-	assign i_inst_addr = IFPC; 
-	assign m_data_addr =  MEMALUOut;//DM
-	assign m_data_wdata = MEMRD2F;
-	//assign m_data_byteen = DMMode;//四位字节使能
-	assign m_inst_addr = MEMPC;//M 级 PC
-	assign w_grf_we = WBRegWrite; //WB write enable
-	assign w_grf_addr = WBA3; // WB write addr
-	assign w_grf_wdata = WD;//WB write Data
-	assign w_inst_addr = WBPC;//PC
-	
-	//连接外部
-	BE BE(
-	.MemWrite(MemWrite), //I
-	.MEMALUOut(MEMALUOut), //I
-	.DMMode(DMMode),
-	.m_data_rdata(m_data_rdata),
-	.m_data_byteen(m_data_byteen), //O
-	.MEMRD(MEMRD) //O
-	);
 	
 	parameter init = 32'h0000_0000;
 	
@@ -72,6 +49,7 @@ module datapath(
 	//wire [31:0] NPCRD1F;
 	wire [31:0] IDRD1F;
 	wire [31:0] IDRD2F;
+	wire IDMULDIV_Type;
 	wire IDJUMP;
 
 	
@@ -94,7 +72,7 @@ module datapath(
 	wire [31:0] EXRD1F;
 	wire [31:0] EXRD2F;
 	wire [31:0] EXMULDIVOut;
-	wire [3:0] EXMULDIVMode;
+	wire [3:0] MULDIVMode;
 	wire HILOSel;
 	wire Busy;
 	wire Start;
@@ -141,6 +119,31 @@ module datapath(
 	wire [31:0] MEMTRSrc;
 	//所以我们转发的目的不应该是仅仅为模块提供正确数据，而应是把 rsOut 和 rtOut 换成正确的
 	
+	
+	//I preprocess 
+	assign IFIR = i_inst_rdata;//接线 //IM
+	//assign MEMRD = m_data_rdata;
+	//O
+	assign i_inst_addr = IFPC; 
+	assign m_data_addr =  MEMALUOut;//DM
+	assign m_data_wdata = MEMRD2F;
+	//assign m_data_byteen = DMMode;//四位字节使能
+	assign m_inst_addr = MEMPC;//M 级 PC
+	assign w_grf_we = WBRegWrite; //WB write enable
+	assign w_grf_addr = WBA3; // WB write addr
+	assign w_grf_wdata = WD;//WB write Data
+	assign w_inst_addr = WBPC;//PC
+	
+	//连接外部
+	BE BE(
+	.MemWrite(MemWrite), //I
+	.MEMALUOut(MEMALUOut), //I
+	.DMMode(DMMode),
+	.m_data_rdata(m_data_rdata),
+	.m_data_byteen(m_data_byteen), //O
+	.MEMRD(MEMRD) //O
+	);
+	
 	mux4 mux4EXNPCSrc( //选择信号可以用各级的MemtoReg实现
 		.x0(init),
 		.x1(init),
@@ -153,7 +156,7 @@ module datapath(
 		.x0(MEMALUOut),
 		.x1(init),
 		.x2(MEMPC_8),
-		.x3(MEMDIVMULOUt),
+		.x3(MEMMULDIVOut),
 		.sel(MEMMemtoReg),
 		.result(MEMTRSrc)//转发段选择
 	);
@@ -228,6 +231,7 @@ module datapath(
 	.Level(`Level_ID),
 	.tuse_rs(tuse_rs),
 	.tuse_rt(tuse_rt),
+	.MULDIV_Type(IDMULDIV_Type),
 	.JUMPOut(IDJUMP)
 	);
 	
@@ -298,7 +302,9 @@ module datapath(
 	.Level(`Level_EX),
 	.tnew(EXtnew),
 	.A3(EXA3),
-	.MemtoReg(EXMemtoReg)
+	.MemtoReg(EXMemtoReg),
+	.MULDIVMode(MULDIVMode),
+	.HILOSel(HILOSel)
 	);
 	
 	mux4 mux4EXRD1Sel(
@@ -339,12 +345,12 @@ module datapath(
 	.A(EXRD1F),
 	.B(ALUB), //接口大部分同ALU
 	.mode(MULDIVMode),
-	.HILOSel(HILOsel),
+	.HILOSel(HILOSel),
 	.clk(clk),
 	.reset(reset),
 	.out(EXMULDIVOut),
 	.Busy(Busy),
-	.Start(Start),
+	.Start(Start)
 );
 	
 	//MEM
@@ -448,9 +454,9 @@ module datapath(
 	.EXtnew(EXtnew),
 	.MEMtnew(MEMtnew),
 	.WBtnew(WBtnew), //tnew = 2'b00马上产生新数据，或者数据没有关联性，或者没有新数据
-	
+	.IDMULDIV_Type(IDMULDIV_Type),
 	.Busy(Busy),
-	.Start(Btart),
+	.Start(Start),
 	
 	.IDRD1Sel(IDRD1Sel),
 	.IDRD2Sel(IDRD2Sel),

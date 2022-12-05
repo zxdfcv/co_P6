@@ -15,6 +15,8 @@ module alu(
 						(ALUCtrl == `ALUCtrl_OR) ? (A | B) :
 						(ALUCtrl == `ALUCtrl_AND) ? (A & B) : //增加功能
 						(ALUCtrl == `ALUCtrl_SWC) ? _swc :
+						(ALUCtrl == `ALUCtrl_SMALL) ? {31'd0, $signed(A) < $signed(B)} : 
+						(ALUCtrl == `ALUCtrl_SMALLU) ? {31'd0, A < B} : 
 						Except; //error
 	
 	assign zero = (A == B);

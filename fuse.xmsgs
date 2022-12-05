@@ -5,16 +5,22 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
-<msg type="error" file="HDLCompiler" num="806" delta="unknown" >"C:/Users/10791/P6_version1/P6_code/muldiv.v" Line 19: Syntax error near &quot;<arg fmt="%s" index="1">;</arg>&quot;.
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 225: Port <arg fmt="%s" index="1">JUMP</arg> is not connected to this instance
 </msg>
 
-<msg type="error" file="HDLCompiler" num="31" delta="unknown" >"C:/Users/10791/P6_version1/P6_code/muldiv.v" Line 19: &lt;<arg fmt="%s" index="1">HI</arg>&gt; is already declared.
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 295: Port <arg fmt="%s" index="1">MemWrite</arg> is not connected to this instance
 </msg>
 
-<msg type="error" file="HDLCompiler" num="1059" delta="unknown" >"C:/Users/10791/P6_version1/P6_code/muldiv.v" Line 20: <arg fmt="%s" index="1">LO</arg> is an unknown type
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 337: Port <arg fmt="%s" index="1">zero</arg> is not connected to this instance
 </msg>
 
-<msg type="error" file="HDLCompiler" num="598" delta="unknown" >"C:/Users/10791/P6_version1/P6_code/muldiv.v" Line 2: Module &lt;<arg fmt="%s" index="1">muldiv</arg>&gt; ignored due to previous errors.
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 377: Port <arg fmt="%s" index="1">ALUSrc</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 419: Port <arg fmt="%s" index="1">ALUSrc</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="Simulator" num="0" delta="unknown" >Unable to copy libPortabilityNOSH.dll to the simulation executable directory: <arg fmt="%s" index="1">boost::filesystem::copy_file: ￏﾵￍﾳￕￒﾲﾻﾵﾽￖﾸﾶﾨﾵￄￂﾷﾾﾶﾡﾣ, &quot;isim\mips_txt_isim_beh.exe.sim\libPortability.dll&quot;</arg>.
 </msg>
 
 </messages>

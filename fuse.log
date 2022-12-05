@@ -8,6 +8,7 @@ Analyzing Verilog file "C:/Users/10791/P6_version1/P6_code/MemOp.v" into library
 Analyzing Verilog file "C:/Users/10791/P6_version1/P6_code/WriteBackReg.v" into library work
 Analyzing Verilog file "C:/Users/10791/P6_version1/P6_code/PCcalculate.v" into library work
 Analyzing Verilog file "C:/Users/10791/P6_version1/P6_code/pc.v" into library work
+Analyzing Verilog file "C:/Users/10791/P6_version1/P6_code/muldiv.v" into library work
 Analyzing Verilog file "C:/Users/10791/P6_version1/P6_code/MemoryReg.v" into library work
 Analyzing Verilog file "C:/Users/10791/P6_version1/P6_code/grf.v" into library work
 Analyzing Verilog file "C:/Users/10791/P6_version1/P6_code/extender.v" into library work
@@ -19,20 +20,15 @@ Analyzing Verilog file "C:/Users/10791/P6_version1/P6_code/BE.v" into library wo
 Analyzing Verilog file "C:/Users/10791/P6_version1/P6_code/alu.v" into library work
 Analyzing Verilog file "C:/Users/10791/P6_version1/P6_code/adder.v" into library work
 Analyzing Verilog file "C:/Users/10791/P6_version1/P6_code/datpath1.v" into library work
-WARNING:HDLCompiler:35 - "C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 57: <IFIR> is already implicitly declared earlier.
-WARNING:HDLCompiler:35 - "C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 103: <MEMALUOut> is already implicitly declared earlier.
-WARNING:HDLCompiler:35 - "C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 104: <MEMRD> is already implicitly declared earlier.
-WARNING:HDLCompiler:35 - "C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 105: <MemWrite> is already implicitly declared earlier.
-WARNING:HDLCompiler:35 - "C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 111: <DMMode> is already implicitly declared earlier.
 Analyzing Verilog file "C:/Users/10791/P6_version1/P6_code/mips.v" into library work
 Analyzing Verilog file "C:/Users/10791/P6_version1/P6_code/test.v" into library work
 Analyzing Verilog file "C:/Xilinx/14.7/ISE_DS/ISE//verilog/src/glbl.v" into library work
 Starting static elaboration
-WARNING:HDLCompiler:1016 - "C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 214: Port JUMP is not connected to this instance
-WARNING:HDLCompiler:1016 - "C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 283: Port MemWrite is not connected to this instance
-WARNING:HDLCompiler:1016 - "C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 323: Port zero is not connected to this instance
-WARNING:HDLCompiler:1016 - "C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 349: Port ALUSrc is not connected to this instance
-WARNING:HDLCompiler:1016 - "C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 389: Port ALUSrc is not connected to this instance
+WARNING:HDLCompiler:1016 - "C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 225: Port JUMP is not connected to this instance
+WARNING:HDLCompiler:1016 - "C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 295: Port MemWrite is not connected to this instance
+WARNING:HDLCompiler:1016 - "C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 337: Port zero is not connected to this instance
+WARNING:HDLCompiler:1016 - "C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 377: Port ALUSrc is not connected to this instance
+WARNING:HDLCompiler:1016 - "C:/Users/10791/P6_version1/P6_code/datpath1.v" Line 419: Port ALUSrc is not connected to this instance
 Completed static elaboration
 Compiling module lbgen
 Compiling module lbugen
@@ -57,6 +53,7 @@ Compiling module extender
 Compiling module ExecuteReg
 Compiling module swc
 Compiling module alu
+Compiling module muldiv
 Compiling module MemoryReg
 Compiling module WriteBackReg
 Compiling module Hcontroller
@@ -65,9 +62,9 @@ Compiling module mips
 Compiling module mips_txt
 Compiling module glbl
 Time Resolution for simulation is 1ps.
-Waiting for 27 sub-compilation(s) to finish...
+Waiting for 28 sub-compilation(s) to finish...
 WARNING:Simulator - Unable to copy libPortabilityNOSH.dll to the simulation executable directory: boost::filesystem::copy_file: 系统找不到指定的路径。, "isim\mips_txt_isim_beh.exe.sim\libPortability.dll".
-Compiled 30 Verilog Units
+Compiled 31 Verilog Units
 Built simulation executable C:/Users/10791/P6_version1/mips_txt_isim_beh.exe
-Fuse Memory Usage: 30640 KB
-Fuse CPU Usage: 436 ms
+Fuse Memory Usage: 31496 KB
+Fuse CPU Usage: 421 ms

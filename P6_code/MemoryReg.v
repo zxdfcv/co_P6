@@ -46,14 +46,14 @@ module MemoryReg( //分开流水
 			MEMRD2 <= init;
 			MEMALUOut <= init;
 			MEMJUMP <= 1'b0;
-			MEMMULDIV <= init;
+			MEMMULDIVOut <= init;
 		end else begin
 			MEMPC <= NextMEMPC;
 			MEMPC_8 <= NextMEMPC_8;//PC + 4
 			MEMIR <= NextMEMIR;
 			MEMRD2 <= NextMEMRD2;
 			MEMALUOut <= NextMEMALUOut;
-			MEMMULDIV <= NextMEMMULDIV;
+			MEMMULDIVOut <= NextMEMMULDIVOut;
 			MEMJUMP <= NextMEMJUMP;
 		end
 	end
